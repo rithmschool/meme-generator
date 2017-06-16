@@ -7,6 +7,7 @@ var userRoutes = require("./routes/users");
 var authRoutes = require("./routes/auth");
 var memeRoutes = require("./routes/memes");
 var authMiddleware = require("./middleware/auth");
+var db = require("./models");
 
 if (process.env.NODE_ENV !== 'production') {
   require("dotenv").config()
@@ -26,23 +27,28 @@ app.use('/api/users', authMiddleware.loginRequired, userRoutes);
 
 app.use('/api/auth', authRoutes);
 
-app.post('/meme', function(req, res, next) {
-  const template_id = req.body.template_id;
-  const text0 = req.body.top;
-  const text1 = req.body.bottom;
-  request.post({
-    url: "https://api.imgflip.com/caption_image",
-    form: {
-      template_id,
-      username: process.env.IMG_FLIP_USERNAME,
-      password: process.env.IMG_FLIP_PASSWORD,
-      text0,
-      text1,
+app.get('/memes/options', function(req,res){
+  request.get("https://api.imgflip.com/get_memes",
+    function(error, response, body) {
+      if (error) {
+        next(error);
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).send(body);
     }
-  }, function(error, response, body) {
-    eval(require('locus'));
+  );
+});
+
+app.get('/memes', function(req, res, next) {
+  db.Meme.find({}, function(err, memes) {
+    if (err) {
+      next(err);
+    } else {
+      res.status(200).send(memes);
+    }
+
   });
-})
+});
 
 app.listen(3000, function(){
   console.log("Server is listening on port 3000");
