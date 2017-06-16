@@ -21,8 +21,8 @@ app.get("/", function(req,res){
   res.send("start with /api/users");
 });
 
-app.use('/api/users/:id/memes', /*authMiddleware.loginRequired,
-        authMiddleware.ensureCorrectUser,*/ memeRoutes);
+app.use('/api/users/:id/memes', authMiddleware.loginRequired,
+        authMiddleware.ensureCorrectUser, memeRoutes);
 app.use('/api/users', authMiddleware.loginRequired, userRoutes);
 
 app.use('/api/auth', authRoutes);
