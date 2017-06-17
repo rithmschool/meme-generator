@@ -27,4 +27,10 @@ router.post('/signup', function(req,res){
   })
 });
 
+router.get('/logout', function(req,res){
+    req.session.user_id = null;
+    req.flash('message', 'logged out!')
+    res.redirect('/login') // this is /users/login in the example
+})
+
 module.exports = router;
