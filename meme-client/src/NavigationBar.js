@@ -28,6 +28,7 @@ class NavigationBar extends Component {
           <div className="container-fluid">
             <div className="navbar-header">
               <Link to="/" className="navbar-brand">MEMEZ</Link>
+              <Link to="/new" className="navbar-brand">New</Link>
             </div>
             <div className="collapse navbar-collapse">
               {this.props.auth ? userLinks : guestLinks}

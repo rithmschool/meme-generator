@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import './MemePhoto.css';
+import { showNewMemeForm } from './actions';
 
 class MemePhoto extends Component {
+
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    this.props.showNewMemeForm(this);
+  }
 
   render() {
     
     return (
       <div>
-        <img src={this.props.url} alt={this.props.name}/>
+        <button onClick={this.handleClick}>
+          <img src={this.props.url} alt={this.props.name}/>
+        </button>
       </div>
     )
 
@@ -17,5 +30,4 @@ class MemePhoto extends Component {
 }
 
 
-
-export default MemePhoto;
+export default withRouter(connect(null, { showNewMemeForm })(MemePhoto));

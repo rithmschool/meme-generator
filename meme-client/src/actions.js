@@ -4,10 +4,13 @@ import jwtDecode from 'jwt-decode';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_MEME_PHOTOS = 'SET_MEME_PHOTOS';
 export const ADD_MEME = 'ADD_MEME';
+export const SET_MEME = 'SET_MEME';
 export const UPDATE_MEME = 'UPDATE_MEME';
 export const DELETE_MEME = 'DELETE_MEME';
+export const SHOW_NEW_MEME_FORM = 'SHOW_NEW_MEME_FORM';
+// export const SET_MEMES = 'SET_MEMES';
 
-const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://localhost:3000';
 
 export function setAuthorizationToken(token) {
   if (token) {
@@ -53,7 +56,7 @@ export function setCurrentUser(user) {
 
 export function getMemePhotos() {
   return dispatch => {
-    return axios.get(`http://localhost:3000/memes/options`).then(res => {
+    return axios.get(`${BASE_URL}/memes/options`).then(res => {
       console.log("meme photos",res.data.data.memes);
       dispatch(setMemePhotos(res.data.data.memes));
     }).catch(err => {
@@ -69,10 +72,35 @@ export function setMemePhotos(memePhotos) {
   }
 }
 
-export function addMeme(meme) {
+export function showNewMemeForm(photo) {
+  console.log(photo);
+  return {
+    type: SHOW_NEW_MEME_FORM,
+    photo
+  }
+}
+
+export function addMeme(user, id, topText, bottomText, name) {
+  return dispatch => {
+    return axios.post(`${BASE_URL}/api/users/${user.user_id}/memes`, {
+      template_id: id,
+      top: topText,
+      bottom: bottomText
+    }).then(res => {
+      dispatch(setMeme(res.data.url, name));
+    }).catch(err => {
+      debugger
+    })
+  }
+}
+
+export function setMeme(url, name) {
   return {
     type: ADD_MEME,
-    meme
+    meme: {
+      url: url,
+      name: name
+    }
   }
 }
 

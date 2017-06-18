@@ -4,6 +4,7 @@ import NavigationBar from './NavigationBar';
 import { Route,  Switch} from 'react-router-dom'
 import Login from './Login'
 import Signup from './Signup'
+import NewMeme from './NewMeme'
 import Home from './Home'
 import requireAuth from './requireAuth'
 
@@ -16,9 +17,11 @@ class App extends Component {
           <h1>Fun with memez</h1>
         </div>
         <Switch>
+          
           <Route path='/login' component={Login} />
           <Route path='/signup' component={Signup} />
-          <Route path='/home' component={requireAuth(Home)} />
+          <Route path='/new' component={requireAuth(NewMeme)} />
+          <Route exact path='/' component={Home} />
           <Route render={() => <h3>No Match</h3>} />
         </Switch>
       </div>
