@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Login from './Login';
+import NavigationBar from './NavigationBar';
+import TopMemeList from './TopMemeList';
+import ChoosePicture from './ChoosePicture';
+import Create from './Create';
+import requireAuth from './requireAuth';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavigationBar/>
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <div className="App-logo" alt="logo">🖌&nbsp; 🖼</div>
+          <h2>Welcome to Meme-ify!</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-intro">
+          <Switch>
+            <Route path="/login" component={Login}/>
+            <Route path="/welcome" component={requireAuth(TopMemeList)}/>
+            <Route exact path="/creatememe" component={requireAuth(ChoosePicture)}/>
+            <Route path="/creatememe/form" component={requireAuth(Create)}/>
+            <Route render={() => <h3>No Match</h3>}/>
+          </Switch>
+        </div>
       </div>
     );
   }
