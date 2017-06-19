@@ -28,7 +28,7 @@ class NewMemeForm extends Component {
       topText: '',
       bottomText: ''
     })
-    console.log(this.props);
+    console.log("form",this.props);
     this.props.history.push('/'); // redirect to home page
   }
 
@@ -63,7 +63,8 @@ class NewMemeForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    memes: state.memes
   };
 }
 

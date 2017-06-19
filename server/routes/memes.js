@@ -49,6 +49,7 @@ router.post('/', function(req,res,next){
 });
 
 router.delete('/:meme_id', function(req,res){
+  // res.status(204).send("KATIE");
   db.Meme.findById(req.params.meme_id).then(function(meme){
     meme.remove().then(function() {
       res.status(204).send(meme);

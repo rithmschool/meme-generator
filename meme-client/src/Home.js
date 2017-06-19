@@ -3,81 +3,61 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { getMemes } from './actions';
 import { BASE_URL } from './actions';
+import { deleteAJAXCall } from './actions';
 import './Home.css';
 
 class Home extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      memes: [],
-      usernames: []
-    }
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     memes: [],
+  //     usernames: []
+  //   }
+  // }
 
   componentWillMount() {
-    this.getMemes();
+    console.log("will props",this.props)
+     // this.props.memes is an empty array
+    this.props.getMemes();
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.match.params.brand !== this.props.match.params.brand) {
-      this.getMemes();
+    if(prevProps.match.memes !== this.props.match.memes) {
+      this.props.getMemes();
     }
-  }
-
-  getMemes() {
-    return axios.get(`${BASE_URL}/memes`).then(res => {
-      console.log("memes",res.data);
-      let array = res.data;
-      this.shuffle(array);
-      let memes = array.filter((val, i) => i <= 30);
-      this.getUsernames(memes);
-      this.setState( {memes} );
-    }).catch(err => {
-      debugger
-    })
-  }
-
-  shuffle(array) {
-    for (let i = array.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [array[i - 1], array[j]] = [array[j], array[i - 1]];
-    }
-  }
-
-  getUsernames(memes) {
-    axios.all(memes.map((meme,i) => {
-      return axios.get(`${BASE_URL}/api/users/${meme.user_id}`)
-    })).then(res => {
-      let usernames = [];
-      res.forEach((val, i) => {
-        usernames.push(val.data.username);
-      })
-      this.setState ( {usernames} )
-    })
-      .catch(err => {
-      debugger
-    })
   }
 
   render() {
 
     let memes = [];
+    console.log("MEMES", this.props.memes)
 
-    if(this.state.memes) {
+    let button = null;
+    
+    if(this.props.memes) { // changed from state.memes
      
-      memes = this.state.memes.map((meme, i) => {
-        return (
-          <div key={i} className="top">
-            <img
-              key={i}
-              src={meme.url}
-              alt={meme.name}
-            />
-            <div>
-              Created by {this.state.usernames[i]}
+      memes = this.props.memes.map((meme, i) => {
+        if (meme.user_id === this.props.user.user_id) {
+          button = <button className="btn btn-danger" onClick={() => this.props.deleteAJAXCall(this.props.user.user_id, meme._id)}>X</button>
+        } else {
+          button = null;
+        }
+        if(meme) {
+          return (
+            <div key={i} className="top">
+              <img
+                key={i}
+                src={meme.url}
+                alt={meme.name}
+              />
+              <div>
+              {button}
+              </div>
             </div>
-          </div>
-        )
+          )
+        } else {
+          return null;
+        }
       })
       
     }
@@ -94,10 +74,9 @@ class Home extends Component {
 
 function mapStateToProps(state) {
   return {
-    memes: state.memes
+    memes: state.memes,
+    user: state.user
   };
 }
 
-export default connect(mapStateToProps, null)(Home);
-
-// export default Home;
+export default connect(mapStateToProps, { deleteAJAXCall, getMemes })(Home);
