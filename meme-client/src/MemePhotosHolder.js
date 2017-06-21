@@ -59,9 +59,7 @@ class MemePhotosHolder extends Component {
           </div>
         )
       })
-      
     }
-    
 
     return (
       <div>

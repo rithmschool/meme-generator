@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var User = require("./user");
 
 var memeSchema = new mongoose.Schema({
   top: {
@@ -21,13 +22,23 @@ var memeSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// memeSchema.pre('remove', function(next){
+//   var self = this
+//   db.User.findById(this.user).then(function(user){
+//     user.memes.remove(self.id);
+//     user.save().then(function(e){
+//       next()
+//     });
+//   });
+// });
 memeSchema.pre('remove', function(next){
-  var self = this
-  db.User.findById(this.user).then(function(user){
-    user.memes.remove(self.id);
+  User.findById(this.user_id).then(user => {
+    user.memes.remove(this.id);
     user.save().then(function(e){
-      next()
+      next();
     });
+  }).catch(function(err) {
+    next(err);
   });
 });
 

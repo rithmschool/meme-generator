@@ -8,6 +8,8 @@ import NewMeme from './NewMeme'
 import Home from './Home'
 import requireAuth from './requireAuth'
 
+// <Route render={() => <h3>No Match</h3>} />
+
 class App extends Component {
   render() {
     return (
@@ -22,7 +24,7 @@ class App extends Component {
           <Route path='/signup' component={Signup} />
           <Route path='/new' component={requireAuth(NewMeme)} />
           <Route exact path='/' component={Home} />
-          <Route render={() => <h3>No Match</h3>} />
+          <Route component={Home} />
         </Switch>
       </div>
     );

@@ -19,13 +19,13 @@ class MemePhoto extends Component {
     
     return (
       <div>
-        <button onClick={this.handleClick}>
+        <button onClick={this.handleClick} style={{
+          margin: 20
+        }}>
           <img src={this.props.url} alt={this.props.name}/>
         </button>
       </div>
     )
-
-
   }
 }
 

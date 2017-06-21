@@ -18,7 +18,7 @@ class LoginForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
       this.props.login(this.state).then(
-        (res) => this.props.history.push('/welcome'),
+        (res) => this.props.history.push('/home'),
         (err) => {
           console.log("login", this.state, err);
           // invalid token error

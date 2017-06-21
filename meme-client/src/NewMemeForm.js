@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { addMeme } from './actions';
@@ -29,13 +28,12 @@ class NewMemeForm extends Component {
       bottomText: ''
     })
     console.log("form",this.props);
-    this.props.history.push('/'); // redirect to home page
+    this.props.history.push('/');
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        
         <label htmlFor="topText">Text for top of photo:&nbsp;</label>
         <input
           name="topText"

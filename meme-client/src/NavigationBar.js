@@ -12,7 +12,7 @@ class NavigationBar extends Component {
   render() {
     const userLinks = (
       <ul className="nav navbar-nav navbar-right">
-        <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
+        <li><a href="/logout" onClick={this.logout.bind(this)}>Logout</a></li>
       </ul>
     );
 
