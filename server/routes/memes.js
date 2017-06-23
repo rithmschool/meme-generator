@@ -53,6 +53,8 @@ router.delete('/:meme_id', function(req,res){
     meme.remove().then(function() {
       res.status(204).send(meme);
     });
+  }).catch(function(err) {
+    res.status(500).send(err);
   });
 });
 
