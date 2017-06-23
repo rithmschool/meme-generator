@@ -50,6 +50,10 @@ app.get('/memes', function(req, res, next) {
   });
 });
 
+app.use(function(err, req, res, next) {
+  res.send(err);
+});
+
 app.listen(3000, function(){
   console.log("Server is listening on port 3000");
 });
