@@ -2,18 +2,28 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
 export const LOGIN = 'LOGIN';
+export const SIGNUP = 'SIGNUP';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_CURRENT_PIC = 'SET_CURRENT_PIC';
 export const SAVE_CURRENT_PICS = 'SAVE_CURRENT_PICS';
 
 const BASE_URL = 'http://localhost:3000'
 
+export function signup(state) {
+  return () => {
+    return axios.post(`${BASE_URL}/api/auth/signup`, {
+         username: state.username,
+         password: state.password
+      })
+  }
+}
+
 export function login(state) {
   return () => {
-  return axios.post(`${BASE_URL}/api/auth/login`, {
-       username: state.username,
-       password: state.password
-    })
+    return axios.post(`${BASE_URL}/api/auth/login`, {
+         username: state.username,
+         password: state.password
+      })
   }
 }
 

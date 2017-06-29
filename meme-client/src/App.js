@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Login from './Login';
+import Signup from './Signup';
 import NavigationBar from './NavigationBar';
 import TopMemeList from './TopMemeList';
 import ChoosePicture from './ChoosePicture';
@@ -19,6 +20,7 @@ class App extends Component {
         </div>
         <div className="App-intro">
           <Switch>
+            <Route path="/signup" component={Signup}/>
             <Route path="/login" component={Login}/>
             <Route path="/welcome" component={requireAuth(TopMemeList)}/>
             <Route exact path="/creatememe" component={requireAuth(ChoosePicture)}/>
